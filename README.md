@@ -1,4 +1,4 @@
-# SoundManager
+# Godot 4.x SoundManager
 Godot 4.3 MP3 Simple Sound Manager
 
 ## Usage
