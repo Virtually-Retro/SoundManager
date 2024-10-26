@@ -7,7 +7,7 @@ Load as a global/singleton, and update the path and groups as needed.
 
 ## Methods / Functions
 
-add_sound( filename ) - Adds a file into the manager - returns the unique ID of the load file
+add_sound( filename ) - Adds a file into the manager - returns the unique ID of the loaded file
 
 play_sound( ID ) - Plays a sound with the given ID
 
