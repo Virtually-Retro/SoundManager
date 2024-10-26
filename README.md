@@ -11,7 +11,7 @@ add_sound( filename ) - Adds a file into the manager - returns the unique ID of 
 
 play_sound( ID ) - Plays a sound with the given ID
 
-stop_sound( ID ) - Stops a soud playing with the given ID
+stop_sound( ID ) - Stops a sound playing with the given ID
 
 clear_all_sounds() - Clears the sound manager database
 
