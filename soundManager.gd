@@ -3,7 +3,7 @@ extends Node
 
 
 @onready var soundNodeNames: Array[String] = []
-@onready var soundFilesPath: String = "res://sounds/ 
+@onready var soundFilesPath: String = "res://sounds/"
 @onready var groupName: String = "sounds"
 
 func add_sound(filename: String) -> int: # Returns the unique ID of the loaded sound -1 is an error
