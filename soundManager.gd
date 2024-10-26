@@ -3,10 +3,10 @@ extends Node
 
 
 @onready var soundNodeNames: Array[String] = []
-@onready var soundFilesPath: String = "res://sounds/" 
+@onready var soundFilesPath: String = "res://sounds/ 
+@onready var groupName: String = "sounds"
 
-
-func addsound(filename: String) -> int: # Returns the unique ID of the loaded sound -1 is an error
+func add_sound(filename: String) -> int: # Returns the unique ID of the loaded sound -1 is an error
 	if filename.right(3) != "mp3".to_lower(): # Check for MP3 extension
 		return -1 # You should check for -1 return as an error
 		
@@ -18,7 +18,7 @@ func addsound(filename: String) -> int: # Returns the unique ID of the loaded so
 	soundNode.stream = load_mp3(filename);
 	if soundNode.stream != null: # check for no valid MP3 data
 		soundNode.name = filename
-		soundNode.add_to_group("sounds", true) # Change the group name to suit
+		soundNode.add_to_group(groupName, true) # Change the group name to suit
 		soundNodeNames.append(soundNodeName)
 		add_child(soundNode)
 		return soundNodeNames.size() - 1
@@ -31,7 +31,7 @@ func clear_all_sounds() -> void: # For clearing all sound when needed
 	soundNodeNames.clear()
 
 
-func playsound(soundID: int) -> void:
+func play_sound(soundID: int) -> void:
 	if soundID not in range(soundNodeNames.size()): return
 	
 	var soundNode: AudioStreamPlayer = get_node(soundNodeNames[soundID])
@@ -39,7 +39,7 @@ func playsound(soundID: int) -> void:
 		soundNode.play()
 
 
-func stopsound(soundID: int) -> void:
+func stop_sound(soundID: int) -> void:
 	if soundID not in range(soundNodeNames.size()): return
 	
 	var soundNode: AudioStreamPlayer = get_node(soundNodeNames[soundID])
