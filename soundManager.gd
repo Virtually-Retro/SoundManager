@@ -1,10 +1,14 @@
-# MP3 SoundManager by Ryn (c) 2024 - MIT License
+#----------------------------------------------------
+# MP3 Simple SoundManager by Ryn (c) 2024
+# MIT License
+#----------------------------------------------------
 extends Node
 
 
 @onready var soundNodeNames: Array[String] = []
-@onready var soundFilesPath: String = "res://sounds/" # Change the path to suit
-@onready var groupName: String = "sounds" # Change the group name to suit
+@onready var soundFilesPath: String = "res://sounds/" # Change path to suit 
+@onready var groupName: String = "sounds" # Change group to suit
+
 
 func add_sound(filename: String) -> int: # Returns the unique ID of the loaded sound -1 is an error
 	if filename.right(3) != "mp3".to_lower(): # Check for MP3 extension
@@ -37,7 +41,7 @@ func play_sound(soundID: int) -> void:
 	
 	var soundNode: AudioStreamPlayer = get_node(soundNodeNames[soundID])
 	if soundNode != null:
-		soundNode.play()
+		if soundNode.get_playback_position() == 0: soundNode.play()
 
 
 func stop_sound(soundID: int) -> void:
@@ -45,7 +49,23 @@ func stop_sound(soundID: int) -> void:
 	
 	var soundNode: AudioStreamPlayer = get_node(soundNodeNames[soundID])
 	if soundNode != null:
-		soundNode.stop()
+		if soundNode.get_playback_position() != 0: soundNode.stop()
+
+
+func pause_sound(soundID: int) -> void:
+	if soundID not in range(soundNodeNames.size()): return
+	
+	var soundNode: AudioStreamPlayer = get_node(soundNodeNames[soundID])
+	if soundNode != null:
+		if soundNode.get_playback_position() !=0 : soundNode.stream_paused = true
+		
+
+func resume_sound(soundID: int) -> void:
+	if soundID not in range(soundNodeNames.size()): return
+	
+	var soundNode: AudioStreamPlayer = get_node(soundNodeNames[soundID])
+	if soundNode != null:
+		if soundNode.get_playback_position() !=0 : soundNode.stream_paused = false
 
 
 func load_mp3(filename: String) -> AudioStream:
