@@ -17,7 +17,7 @@ func add_sound(filename: String) -> int: # Returns the unique ID of the loaded s
 	var soundNode: AudioStreamPlayer = AudioStreamPlayer.new()
 	soundNode.stream = load_mp3(filename);
 	if soundNode.stream != null: # check for no valid MP3 data
-		soundNode.name = filename
+		soundNode.name = soundNodeName
 		soundNode.add_to_group(groupName, true) # Change the group name to suit
 		soundNodeNames.append(soundNodeName)
 		add_child(soundNode)
