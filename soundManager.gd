@@ -1,5 +1,5 @@
 #----------------------------------------------------
-# MP3 Simple SoundManager by Ryn (c) 2024
+# MP3 Simple SoundManager by Ryn (c) 2024 Version 1.0
 # MIT License
 #----------------------------------------------------
 extends Node
@@ -41,7 +41,8 @@ func play_sound(soundID: int) -> void:
 	
 	var soundNode: AudioStreamPlayer = get_node(soundNodeNames[soundID])
 	if soundNode != null:
-		if soundNode.get_playback_position() == 0: soundNode.play()
+		if soundNode.get_playback_position() == 0: 
+			soundNode.play()
 
 
 func stop_sound(soundID: int) -> void:
@@ -49,7 +50,8 @@ func stop_sound(soundID: int) -> void:
 	
 	var soundNode: AudioStreamPlayer = get_node(soundNodeNames[soundID])
 	if soundNode != null:
-		if soundNode.get_playback_position() != 0: soundNode.stop()
+		if soundNode.get_playback_position() != 0: 
+			soundNode.stop()
 
 
 func pause_sound(soundID: int) -> void:
@@ -57,7 +59,8 @@ func pause_sound(soundID: int) -> void:
 	
 	var soundNode: AudioStreamPlayer = get_node(soundNodeNames[soundID])
 	if soundNode != null:
-		if soundNode.get_playback_position() !=0 : soundNode.stream_paused = true
+		if soundNode.get_playback_position() != 0 and not soundNode.stream_paused: 
+			soundNode.stream_paused = true
 		
 
 func resume_sound(soundID: int) -> void:
@@ -65,7 +68,8 @@ func resume_sound(soundID: int) -> void:
 	
 	var soundNode: AudioStreamPlayer = get_node(soundNodeNames[soundID])
 	if soundNode != null:
-		if soundNode.get_playback_position() !=0 : soundNode.stream_paused = false
+		if soundNode.get_playback_position() != 0 and soundNode.stream_paused: 
+			soundNode.stream_paused = false
 
 
 func load_mp3(filename: String) -> AudioStream:
