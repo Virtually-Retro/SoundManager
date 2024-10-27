@@ -3,8 +3,8 @@ extends Node
 
 
 @onready var soundNodeNames: Array[String] = []
-@onready var soundFilesPath: String = "res://sounds/"
-@onready var groupName: String = "sounds"
+@onready var soundFilesPath: String = "res://sounds/" # Change the path to suit
+@onready var groupName: String = "sounds" # Change the group name to suit
 
 func add_sound(filename: String) -> int: # Returns the unique ID of the loaded sound -1 is an error
 	if filename.right(3) != "mp3".to_lower(): # Check for MP3 extension
@@ -18,7 +18,7 @@ func add_sound(filename: String) -> int: # Returns the unique ID of the loaded s
 	soundNode.stream = load_mp3(filename);
 	if soundNode.stream != null: # check for no valid MP3 data
 		soundNode.name = soundNodeName
-		soundNode.add_to_group(groupName, true) # Change the group name to suit
+		soundNode.add_to_group(groupName, true)
 		soundNodeNames.append(soundNodeName)
 		add_child(soundNode)
 		return soundNodeNames.size() - 1
@@ -27,7 +27,7 @@ func add_sound(filename: String) -> int: # Returns the unique ID of the loaded s
 
 
 func clear_all_sounds() -> void: # For clearing all sound when needed
-	get_tree().call_group(groupName, "queue_free") # Change the group name to suit
+	get_tree().call_group(groupName, "queue_free")
 	soundNodeNames.clear()
 
 
