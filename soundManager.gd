@@ -27,7 +27,8 @@ func add_sound(filename: String) -> int: # Returns the unique ID of the loaded s
 
 
 func clear_all_sounds() -> void: # For clearing all sound when needed
-	get_tree().call_group(groupName, "queue_free")
+	if is_inside_tree():
+		get_tree().call_group(groupName, "queue_free")
 	soundNodeNames.clear()
 
 
