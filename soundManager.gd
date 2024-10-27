@@ -11,7 +11,7 @@ extends Node
 
 
 func add_sound(filename: String) -> int: # Returns the unique ID of the loaded sound -1 is an error
-	if filename.right(3) != "mp3".to_lower(): # Check for MP3 extension
+	if filename.right(3).to_lower() != "mp3": # Check for MP3 extension
 		return -1 # You should check for -1 return as an error
 		
 	var soundNodeName: String = filename.replacen(".","_")
