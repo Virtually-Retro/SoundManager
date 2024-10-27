@@ -1,5 +1,4 @@
-# Godot 4.x SoundManager
-Godot 4.3 MP3 Simple Sound Manager
+# Godot 4.x Simple MP3 SoundManager
 
 ## Usage
 
@@ -12,6 +11,10 @@ add_sound( filename ) - Adds a file into the manager - returns the unique ID of 
 play_sound( ID ) - Plays a sound with the given ID.
 
 stop_sound( ID ) - Stops a sound playing with the given ID.
+
+pause_sound( ID ) - Pause a sound with a given ID.
+
+resume_sound( ID ) - Resume a sound with a given ID.
 
 clear_all_sounds() - Clears the sound manager database.
 
