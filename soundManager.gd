@@ -38,38 +38,34 @@ func clear_all_sounds() -> void: # For clearing all sound when needed
 
 func play_sound(soundID: int) -> void:
 	if soundID not in range(soundNodeNames.size()): return
-	
+
 	var soundNode: AudioStreamPlayer = get_node(soundNodeNames[soundID])
 	if soundNode != null:
-		if soundNode.get_playback_position() == 0: 
-			soundNode.play()
+		soundNode.play()
 
 
 func stop_sound(soundID: int) -> void:
 	if soundID not in range(soundNodeNames.size()): return
-	
+
 	var soundNode: AudioStreamPlayer = get_node(soundNodeNames[soundID])
 	if soundNode != null:
-		if soundNode.get_playback_position() != 0: 
-			soundNode.stop()
+		soundNode.stop()
 
 
 func pause_sound(soundID: int) -> void:
 	if soundID not in range(soundNodeNames.size()): return
-	
+
 	var soundNode: AudioStreamPlayer = get_node(soundNodeNames[soundID])
 	if soundNode != null:
-		if soundNode.get_playback_position() != 0 and not soundNode.stream_paused: 
-			soundNode.stream_paused = true
-		
+		soundNode.stream_paused = true
+
 
 func resume_sound(soundID: int) -> void:
 	if soundID not in range(soundNodeNames.size()): return
-	
+
 	var soundNode: AudioStreamPlayer = get_node(soundNodeNames[soundID])
 	if soundNode != null:
-		if soundNode.get_playback_position() != 0 and soundNode.stream_paused: 
-			soundNode.stream_paused = false
+		soundNode.stream_paused = false
 
 
 func load_mp3(filename: String) -> AudioStream:
