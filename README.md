@@ -14,7 +14,7 @@ play_sound( ID: Int , Pitch_Shift: Bool) - Plays a sound with the given ID.
     Pitch_Shift adds a small random shift in the pitch to add variance.
     play_sound will pause the sound if already playing and unpause if paused
 
-stop_sound( ID: Int  ) - Stops a sound playing with the given ID.
+stop_sound( ID: Int ) - Stops a sound playing with the given ID.
 
 pause_sound( ID: Int ) - Pause a sound with a given ID.
 
@@ -28,7 +28,7 @@ set_volume( Volume: Int ) - Sets the volume of all audio streams. 0-100
 
 get_sound_id_by_name( filename: String ) -> int: - Returns the unique ID of the loaded sound.
 
-get_sound_status( ID: Int) -> Int: - Used to get the status of the audio stream.
+get_sound_status( ID: Int ) -> Int: - Used to get the status of the audio stream.
 
     0 = Stopped
     1 = Playing
