@@ -28,6 +28,13 @@ set_volume( Volume: Int ) - Sets the volume of all audio streams. 0-100
 
 get_sound_id_by_name( filename: String ) -> int: - Returns the unique ID of the loaded sound.
 
+get_sound_status( ID: Int) -> Int: - Used to get the status of the audio stream.
+
+    0 = Stopped
+    1 = Playing
+    2 = Paused
+
+
 ## Notes
 
 Loaded sounds are persistant across scenes when changed.
