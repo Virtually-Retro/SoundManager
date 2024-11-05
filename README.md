@@ -9,7 +9,7 @@ Load as a global/singleton, and update the path and groups as needed.
 
 add_sound( filename: String ) -> int: - Adds a file into the manager - returns the unique ID of the loaded file.
 
-play_sound( ID: Int , Pitch_Shift: Bool) - Plays a sound with the given ID.
+play_sound( ID: Int , Pitch_Shift: Bool ) - Plays a sound with the given ID.
   
     Pitch_Shift adds a small random shift in the pitch to add variance.
     play_sound will pause the sound if already playing and unpause if paused
