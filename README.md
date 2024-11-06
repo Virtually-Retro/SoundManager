@@ -35,7 +35,7 @@ Load as a global/singleton, and update the path and groups as needed.
 
 ## load_mp3_audio_stream( filename: String ) -> AudioStream
 
-    used by the add_sound function, should not be called externally.
+    Used by the add_sound function, should not be called externally.
 
 ## set_volume( Volume: Int ) -> void:
 
