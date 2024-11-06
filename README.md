@@ -10,6 +10,7 @@ Load as a global/singleton, and update the path and groups as needed.
 add_sound( filename: String ) -> int:
 
     Adds a file into the manager - returns the unique ID of the loaded file.
+    Returns -1 if there was any error loading the audio stream.
 
 play_sound( ID: Int , Pitch_Shift: Bool ) -> void:
 
@@ -33,9 +34,10 @@ clear_all_sounds() -> void:
 
     Clears the sound manager database.
 
-load_mp3_audio_stream( filename: String ) -> AudioStream
+_load_mp3_audio_stream( filename: String ) -> AudioStream
 
     Used by the add_sound function, should not be called externally.
+    Returns NULL if the audio stream could not be loaded.
 
 set_volume( Volume: Int ) -> void:
 
@@ -44,10 +46,12 @@ set_volume( Volume: Int ) -> void:
 get_sound_id_by_name( filename: String ) -> int:
 
     Returns the unique ID of the loaded sound.
+    Returns -1 if the filename was not found
 
 get_sound_status( ID: Int ) -> Int:
 
     Used to get the status of the audio stream.
+    -1 = Error, reading stream or stream not found
     0 = Stopped
     1 = Playing
     2 = Paused
