@@ -8,7 +8,7 @@ extends Node
 @onready var soundNodeNames: Array[String] = []
 @onready var soundDefaultVolume: float = 0.5
 @onready var soundFilesPath: String = "res://sounds/" # Change path to suit 
-@onready var groupName: String = "sounds" # Change group to suit
+@onready var soundGroupName: String = "sounds" # Change group to suit
 
 
 # Adds a sound stream to the database check for prior existance
