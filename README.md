@@ -16,7 +16,7 @@ Load as a global/singleton, and update the path and groups as needed.
     func resume_sound_by_name(filename: String) -> void:
     func resume_sound(soundID: int) -> void:
     func set_volume(vol_level: int) -> void:
-    func add_sound(filename: String) -> int: # Returns the unique ID of the loaded sound -1 is an error
+    func add_sound(filename: String) -> int:
     func clear_all_sounds() -> void:
     func get_sound_id_by_name(filename: String) -> int:
     func get_sound_status_by_name(filename: String) -> int:
