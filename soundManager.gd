@@ -1,14 +1,15 @@
 #----------------------------------------------------
-# MP3 Simple SoundManager by Ryn (c) 2024 Version 1.4
-# MIT License
+# MP3 Simple SoundManager by Ryn (c) 2024 Version 1.5
+# MIT License - Last Updated - 12-11-2024
 #----------------------------------------------------
 extends Node
 
 
 @onready var soundNodeNames: Array[String] = []
 @onready var soundDefaultVolume: float = 0.5
-@onready var soundFilesPath: String = "res://sounds/" # Change path to suit 
-@onready var soundGroupName: String = "sounds" # Change group to suit
+@onready var soundEnabled: bool = true
+@onready var soundFilesPath: String = "res://Audio/" # Change if needed
+@onready var soundGroupName: String = "sounds" # Change if needed
 
 
 # For playing an audio file by name.  If the stream is not loaded
@@ -29,6 +30,7 @@ func play_sound_by_name(filename: String, pitch_shift: bool) -> void:
 # and additional functions if the stream is playing or paused
 func play_sound(soundID: int, pitch_shift: bool) -> void:
 	if soundID not in range(soundNodeNames.size()): return
+	if not soundEnabled: return # check for disabled sound state
 	var soundNode: AudioStreamPlayer = get_node_or_null(soundNodeNames[soundID])
 	if soundNode != null: 
 		if soundNode.playing: 
@@ -38,26 +40,11 @@ func play_sound(soundID: int, pitch_shift: bool) -> void:
 			soundNode.stream_paused = false
 			return
 		if pitch_shift:
-			soundNode.pitch_scale = randf_range(0.8, 1.2)
+			soundNode.pitch_scale = randf_range(0.7, 1.3)
 			soundNode.play()
 		else:
 			soundNode.pitch_scale = 1
 			soundNode.play()
-
-
-#Stops a sound playing with a given file name
-func stop_sound_by_name(filename: String) -> void:
-	var soundID: int = get_sound_id_by_name(filename)
-	if soundID > -1: # Sound Stream found
-		stop_sound(soundID)
-
-
-# Stops a loaded audio stream from playing
-func stop_sound(soundID: int) -> void:
-	if soundID not in range(soundNodeNames.size()): return
-	var soundNode: AudioStreamPlayer = get_node_or_null(soundNodeNames[soundID])
-	if soundNode != null: 
-		soundNode.stop()
 
 
 #Pauses a sound playing with a given file name
@@ -90,6 +77,21 @@ func resume_sound(soundID: int) -> void:
 		soundNode.stream_paused = false
 
 
+#Stops a sound playing with a given file name
+func stop_sound_by_name(filename: String) -> void:
+	var soundID: int = get_sound_id_by_name(filename)
+	if soundID > -1: # Sound Stream found
+		stop_sound(soundID)
+
+
+# Stops a loaded audio stream from playing
+func stop_sound(soundID: int) -> void:
+	if soundID not in range(soundNodeNames.size()): return
+	var soundNode: AudioStreamPlayer = get_node_or_null(soundNodeNames[soundID])
+	if soundNode != null: 
+		soundNode.stop()
+
+
 # Used to set the  volume level of all loaded streams.
 # Also corrects and adjusts the volume level to linear DB
 func set_volume(vol_level: int) -> void:
@@ -102,6 +104,22 @@ func set_volume(vol_level: int) -> void:
 		var soundNode: AudioStreamPlayer = get_node_or_null(soundNodeNames[i])
 		if soundNode != null:
 			soundNode.volume_db = linear_to_db(soundDefaultVolume)
+
+
+# Used to Enable / disable all audio
+func set_sound_enabled(enabled_state: bool) -> void:
+	soundEnabled = enabled_state
+	if not soundEnabled:
+		stop_all_sounds() # Stop all sounds if audio set to false 
+	
+
+# Used to stop all sounds when sound is disabled
+# Without unloading all the audio streams	
+func stop_all_sounds() -> void:
+	for i: int in soundNodeNames.size():
+		var soundNode: AudioStreamPlayer = get_node_or_null(soundNodeNames[i])
+		if soundNode != null:
+			soundNode.stop()
 
 
 # Adds a sound stream to the database check for prior existance
