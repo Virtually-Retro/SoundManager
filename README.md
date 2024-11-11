@@ -23,6 +23,6 @@ Load as a global/singleton, and update the path and groups as needed.
     func get_sound_status(soundID: int) -> int:
     func _load_mp3_audio_stream(filename: String) -> AudioStream:
 
-# Methods / Functions
+# Notes
 
     Sounds are persistant between scenes once loaded.
