@@ -27,4 +27,4 @@ Load as a global/singleton, and update the path and groups as needed.
 
     Sounds are persistant between scenes once loaded.
     'by_name' Functions use the internal functions to get the sound ID
-    _load_mp3_audio_stream is and internal fuction called by add_sound
+    _load_mp3_audio_stream is an internal fuction called by add_sound
