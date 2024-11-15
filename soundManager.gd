@@ -1,5 +1,5 @@
 #----------------------------------------------------
-# MP3 Simple SoundManager by Ryn (c) 2024 Version 1.5
+# MP3 Simple SoundManager by Ryn (c) 2024 Version 1.6
 # MIT License - Last Updated - 12-11-2024
 #----------------------------------------------------
 extends Node
@@ -8,14 +8,13 @@ extends Node
 @onready var soundNodeNames: Array[String] = []
 @onready var soundDefaultVolume: float = 0.5
 @onready var soundEnabled: bool = true
+@onready var soundAutoPause: bool = false
 @onready var soundFilesPath: String = "res://Audio/" # Change if needed
 @onready var soundGroupName: String = "sounds" # Change if needed
 
 
 # For playing an audio file by name.  If the stream is not loaded
-# it will load and play the sound, you should use the ID from that
-# point onward.  This function is useful so all streams can be loaded
-# as needed.
+# it will load and play the sound.
 func play_sound_by_name(filename: String, pitch_shift: bool) -> void:
 	var soundID: int = get_sound_id_by_name(filename)
 	if soundID > -1: # Sound Stream found
@@ -33,18 +32,20 @@ func play_sound(soundID: int, pitch_shift: bool) -> void:
 	if not soundEnabled: return # check for disabled sound state
 	var soundNode: AudioStreamPlayer = get_node_or_null(soundNodeNames[soundID])
 	if soundNode != null: 
-		if soundNode.playing: 
-			soundNode.stream_paused = true
-			return
-		if soundNode.stream_paused:
-			soundNode.stream_paused = false
-			return
-		if pitch_shift:
-			soundNode.pitch_scale = randf_range(0.7, 1.3)
-			soundNode.play()
-		else:
-			soundNode.pitch_scale = 1
-			soundNode.play()
+		if soundAutoPause: # Auto pause and resume if flag is set
+			if soundNode.playing: 
+				soundNode.stream_paused = true
+				return
+			if soundNode.stream_paused:
+				soundNode.stream_paused = false
+				return
+		if not soundNode.playing: # Prevent restarting an already playing sound
+			if pitch_shift:
+				soundNode.pitch_scale = randf_range(0.6, 1.4)
+				soundNode.play()
+			else:
+				soundNode.pitch_scale = 1
+				soundNode.play()
 
 
 #Pauses a sound playing with a given file name
@@ -104,6 +105,11 @@ func set_volume(vol_level: int) -> void:
 		var soundNode: AudioStreamPlayer = get_node_or_null(soundNodeNames[i])
 		if soundNode != null:
 			soundNode.volume_db = linear_to_db(soundDefaultVolume)
+
+
+# Used to set the auto pause state
+func set_sound_autopause(enabled_state: bool) -> void:
+	soundAutoPause = enabled_state
 
 
 # Used to Enable / disable all audio
