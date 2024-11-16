@@ -1,5 +1,5 @@
 #------------------------------------------------------
-# MP3 Simple SoundManager by Ryn (c) 2024 Version 1.7.1
+# MP3 Simple SoundManager by Ryn (c) 2024 Version 1.7.3
 # MIT License - Last Updated - 16-11-2024
 #------------------------------------------------------
 extends Node
@@ -116,16 +116,19 @@ func set_sound_autopause(enabled_state: bool) -> void:
 
 # Used to set if Polyphony is enabled
 func set_sound_allow_polyphony(enabled_state: bool) -> void:
-	soundAllowPolyphony = enabled_state
-	if soundAllowPolyphony:
+	if enabled_state and soundMaxPolyphony > 1:
+		soundAllowPolyphony = true
 		set_sound_max_polyphony(soundMaxPolyphony) # Update ployphony if true
+	else:
+		soundAllowPolyphony = false
+		set_sound_max_polyphony(1)
 
 
 # Used to set the max PolyPhony per audio stream
 func set_sound_max_polyphony(polyphony_max: int) -> void:
 	if polyphony_max not in [1,2,3,4,5]: return
 	soundMaxPolyphony = polyphony_max
-	if polyphony_max == 1: soundAllowPolyphony = false
+	if soundMaxPolyphony == 1: soundAllowPolyphony = false # No point if only one stream channel
 	# Change the max polyphony on all nodes
 	for i: int in soundNodeNames.size():
 		var soundNode: AudioStreamPlayer = get_node_or_null(soundNodeNames[i])
@@ -138,7 +141,7 @@ func set_sound_enabled(enabled_state: bool) -> void:
 	soundEnabled = enabled_state
 	if not soundEnabled:
 		stop_all_sounds() # Stop all sounds if audio set to false 
-	
+
 
 # Used to stop all sounds when sound is disabled
 # Without unloading all the audio streams	
