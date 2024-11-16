@@ -1,7 +1,7 @@
-#----------------------------------------------------
-# MP3 Simple SoundManager by Ryn (c) 2024 Version 1.7
+#------------------------------------------------------
+# MP3 Simple SoundManager by Ryn (c) 2024 Version 1.7.1
 # MIT License - Last Updated - 16-11-2024
-#----------------------------------------------------
+#------------------------------------------------------
 extends Node
 
 
@@ -123,16 +123,14 @@ func set_sound_allow_polyphony(enabled_state: bool) -> void:
 
 # Used to set the max PolyPhony per audio stream
 func set_sound_max_polyphony(polyphony_max: int) -> void:
-	if polyphony_max >= 1 and polyphony_max != soundMaxPolyphony:
-		soundMaxPolyphony = polyphony_max
-		#Change the max polyphony on all nodes
-		for i: int in soundNodeNames.size():
-			var soundNode: AudioStreamPlayer = get_node_or_null(soundNodeNames[i])
-			if soundNode != null:
-				soundNode.max_polyphony = soundMaxPolyphony
-	
-	if polyphony_max == 1: #turn off polyphony if equal to 1
-		soundAllowPolyphony = false
+	if polyphony_max not in [1,2,3,4,5]: return
+	soundMaxPolyphony = polyphony_max
+	if polyphony_max == 1: soundAllowPolyphony = false
+	# Change the max polyphony on all nodes
+	for i: int in soundNodeNames.size():
+		var soundNode: AudioStreamPlayer = get_node_or_null(soundNodeNames[i])
+		if soundNode != null:
+			soundNode.max_polyphony = soundMaxPolyphony
 
 
 # Used to Enable / disable all audio
