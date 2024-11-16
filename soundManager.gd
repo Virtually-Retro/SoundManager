@@ -1,6 +1,6 @@
 #----------------------------------------------------
 # MP3 Simple SoundManager by Ryn (c) 2024 Version 1.7
-# MIT License - Last Updated - 12-11-2024
+# MIT License - Last Updated - 16-11-2024
 #----------------------------------------------------
 extends Node
 
