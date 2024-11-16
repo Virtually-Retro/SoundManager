@@ -1,5 +1,5 @@
 #----------------------------------------------------
-# MP3 Simple SoundManager by Ryn (c) 2024 Version 1.6
+# MP3 Simple SoundManager by Ryn (c) 2024 Version 1.7
 # MIT License - Last Updated - 12-11-2024
 #----------------------------------------------------
 extends Node
@@ -9,6 +9,8 @@ extends Node
 @onready var soundDefaultVolume: float = 0.5
 @onready var soundEnabled: bool = true
 @onready var soundAutoPause: bool = false
+@onready var soundAllowPolyphony: bool = false
+@onready var soundMaxPolyphony: int = 2
 @onready var soundFilesPath: String = "res://Audio/" # Change if needed
 @onready var soundGroupName: String = "sounds" # Change if needed
 
@@ -39,7 +41,7 @@ func play_sound(soundID: int, pitch_shift: bool) -> void:
 			if soundNode.stream_paused:
 				soundNode.stream_paused = false
 				return
-		if not soundNode.playing: # Prevent restarting an already playing sound
+		if not soundNode.playing or soundAllowPolyphony: # Check for playing and polyphony
 			if pitch_shift:
 				soundNode.pitch_scale = randf_range(0.6, 1.4)
 				soundNode.play()
@@ -112,6 +114,27 @@ func set_sound_autopause(enabled_state: bool) -> void:
 	soundAutoPause = enabled_state
 
 
+# Used to set if Polyphony is enabled
+func set_sound_allow_polyphony(enabled_state: bool) -> void:
+	soundAllowPolyphony = enabled_state
+	if soundAllowPolyphony:
+		set_sound_max_polyphony(soundMaxPolyphony) # Update ployphony if true
+
+
+# Used to set the max PolyPhony per audio stream
+func set_sound_max_polyphony(polyphony_max: int) -> void:
+	if polyphony_max >= 1 and polyphony_max != soundMaxPolyphony:
+		soundMaxPolyphony = polyphony_max
+		#Change the max polyphony on all nodes
+		for i: int in soundNodeNames.size():
+			var soundNode: AudioStreamPlayer = get_node_or_null(soundNodeNames[i])
+			if soundNode != null:
+				soundNode.max_polyphony = soundMaxPolyphony
+	
+	if polyphony_max == 1: #turn off polyphony if equal to 1
+		soundAllowPolyphony = false
+
+
 # Used to Enable / disable all audio
 func set_sound_enabled(enabled_state: bool) -> void:
 	soundEnabled = enabled_state
@@ -143,6 +166,10 @@ func add_sound(filename: String) -> int: # Returns the unique ID of the loaded s
 	soundNode.stream = _load_mp3_audio_stream(filename);
 	if soundNode.stream != null: # check for no valid MP3 data
 		soundNode.name = soundNodeName
+		
+		if soundAllowPolyphony and soundMaxPolyphony > 1: 
+			soundNode.max_polyphony = soundMaxPolyphony
+		
 		soundNode.volume_db = linear_to_db(soundDefaultVolume)
 		soundNode.add_to_group(soundGroupName, true)
 		soundNodeNames.append(soundNodeName)
