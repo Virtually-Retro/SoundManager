@@ -1,9 +1,8 @@
 #------------------------------------------------------
-# MP3 Simple SoundManager by Ryn (c) 2024 Version 1.7.3
-# MIT License - Last Updated - 16-11-2024
+# MP3 Simple SoundManager by Ryn (c) 2024 Version 1.7.4
+# MIT License - Last Updated - 20-11-2024
 #------------------------------------------------------
 extends Node
-
 
 @onready var soundNodeNames: Array[String] = []
 @onready var soundDefaultVolume: float = 0.5
@@ -13,7 +12,6 @@ extends Node
 @onready var soundMaxPolyphony: int = 2
 @onready var soundFilesPath: String = "res://Audio/" # Change if needed
 @onready var soundGroupName: String = "sounds" # Change if needed
-
 
 # For playing an audio file by name.  If the stream is not loaded
 # it will load and play the sound.
@@ -33,7 +31,7 @@ func play_sound(soundID: int, pitch_shift: bool) -> void:
 	if soundID not in range(soundNodeNames.size()): return
 	if not soundEnabled: return # check for disabled sound state
 	var soundNode: AudioStreamPlayer = get_node_or_null(soundNodeNames[soundID])
-	if soundNode != null: 
+	if soundNode: 
 		if soundAutoPause: # Auto pause and resume if flag is set
 			if soundNode.playing: 
 				soundNode.stream_paused = true
@@ -61,7 +59,7 @@ func pause_sound_by_name(filename: String) -> void:
 func pause_sound(soundID: int) -> void:
 	if soundID not in range(soundNodeNames.size()): return
 	var soundNode: AudioStreamPlayer = get_node_or_null(soundNodeNames[soundID])
-	if soundNode != null: 
+	if soundNode: 
 		soundNode.stream_paused = true
 
 
@@ -76,7 +74,7 @@ func resume_sound_by_name(filename: String) -> void:
 func resume_sound(soundID: int) -> void:
 	if soundID not in range(soundNodeNames.size()): return
 	var soundNode: AudioStreamPlayer = get_node_or_null(soundNodeNames[soundID])
-	if soundNode != null: 
+	if soundNode: 
 		soundNode.stream_paused = false
 
 
@@ -91,7 +89,7 @@ func stop_sound_by_name(filename: String) -> void:
 func stop_sound(soundID: int) -> void:
 	if soundID not in range(soundNodeNames.size()): return
 	var soundNode: AudioStreamPlayer = get_node_or_null(soundNodeNames[soundID])
-	if soundNode != null: 
+	if soundNode: 
 		soundNode.stop()
 
 
@@ -105,7 +103,7 @@ func set_volume(vol_level: int) -> void:
 	# Set volume or all audio nodes
 	for i: int in soundNodeNames.size():
 		var soundNode: AudioStreamPlayer = get_node_or_null(soundNodeNames[i])
-		if soundNode != null:
+		if soundNode:
 			soundNode.volume_db = linear_to_db(soundDefaultVolume)
 
 
@@ -121,7 +119,7 @@ func set_sound_allow_polyphony(enabled_state: bool) -> void:
 		set_sound_max_polyphony(soundMaxPolyphony) # Update ployphony if true
 	else:
 		soundAllowPolyphony = false
-		set_sound_max_polyphony(1)
+		set_sound_max_polyphony(1) # Reset 1 if false
 
 
 # Used to set the max PolyPhony per audio stream
@@ -132,7 +130,7 @@ func set_sound_max_polyphony(polyphony_max: int) -> void:
 	# Change the max polyphony on all nodes
 	for i: int in soundNodeNames.size():
 		var soundNode: AudioStreamPlayer = get_node_or_null(soundNodeNames[i])
-		if soundNode != null:
+		if soundNode:
 			soundNode.max_polyphony = soundMaxPolyphony
 
 
@@ -148,7 +146,7 @@ func set_sound_enabled(enabled_state: bool) -> void:
 func stop_all_sounds() -> void:
 	for i: int in soundNodeNames.size():
 		var soundNode: AudioStreamPlayer = get_node_or_null(soundNodeNames[i])
-		if soundNode != null:
+		if soundNode:
 			soundNode.stop()
 
 
@@ -160,12 +158,12 @@ func add_sound(filename: String) -> int: # Returns the unique ID of the loaded s
 		return -1 # You should check for -1 return as an error
 	
 	var soundNodeName: String = filename.replacen(".","_")
-	if soundNodeNames.find(soundNodeName) > -1:  # Stops loading multiples of same file
+	if soundNodeNames.has(soundNodeName):  # Stops loading multiples of same file
 		return soundNodeNames.find(soundNodeName) # Returns the ID of existing loaded file
 	
 	var soundNode: AudioStreamPlayer = AudioStreamPlayer.new()
 	soundNode.stream = _load_mp3_audio_stream(filename);
-	if soundNode.stream != null: # check for no valid MP3 data
+	if soundNode.stream: # check for no valid MP3 data
 		soundNode.name = soundNodeName
 		
 		if soundAllowPolyphony and soundMaxPolyphony > 1: 
@@ -205,7 +203,7 @@ func get_sound_status_by_name(filename: String) -> int:
 func get_sound_status(soundID: int) -> int:
 	if soundID not in range(soundNodeNames.size()): return -1
 	var soundNode: AudioStreamPlayer = get_node_or_null(soundNodeNames[soundID])
-	if soundNode != null:
+	if soundNode:
 		if soundNode.playing: return 1
 		if soundNode.stream_paused: return 2
 		if not soundNode.playing : return 0
@@ -217,7 +215,7 @@ func get_sound_status(soundID: int) -> int:
 # Load the MP3 audio stream data, only used internaly.
 func _load_mp3_audio_stream(filename: String) -> AudioStream:
 	var file: Object = FileAccess.open(soundFilesPath + filename, FileAccess.READ)
-	if file != null: # Check for valid file
+	if file: # Check for valid file
 		if file.get_length() == 0: # Check for data
 			return null
 		else:
