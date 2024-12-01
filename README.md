@@ -1,5 +1,5 @@
 # Godot 4.x Simple MP3 SoundManager
-### Version 1.7.3
+### Version 1.7.4
 
 # Usage
 
