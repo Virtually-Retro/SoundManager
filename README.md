@@ -1,5 +1,5 @@
 # Godot 4.x Simple MP3 SoundManager
-### Version 1.7.4
+### Version 1.7.5
 
 # Usage
 
@@ -23,6 +23,7 @@ Load as a global/singleton, and update the path and groups as needed.
     func set_sound_max_polyphony(polyphony_max: int) -> void:
     func add_sound(filename: String) -> int:
     func clear_all_sounds() -> void:
+    func reset(complete: bool) -> void:
     func get_sound_id_by_name(filename: String) -> int:
     func get_sound_status_by_name(filename: String) -> int:
     func get_sound_status(soundID: int) -> int:
