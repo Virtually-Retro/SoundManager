@@ -1,6 +1,6 @@
 #------------------------------------------------------
-# MP3 Simple SoundManager by Ryn (c) 2024 Version 1.7.4
-# MIT License - Last Updated - 20-11-2024
+# MP3 Simple SoundManager by Ryn (c) 2024 Version 1.7.5
+# MIT License - Last Updated - 13-12-2024
 #------------------------------------------------------
 extends Node
 
@@ -176,6 +176,19 @@ func add_sound(filename: String) -> int: # Returns the unique ID of the loaded s
 		return soundNodeNames.size() - 1
 	else:
 		return -1 # You should check for -1 return as an error
+
+
+# Reset to defaults, with flag to also clear path and loaded sounds
+func reset(complete: bool) -> void:
+	if complete:
+		soundFilesPath = "res://Audio/"
+		clear_all_sounds()
+		
+	set_sound_allow_polyphony(false)
+	set_sound_max_polyphony(2)
+	set_sound_autopause(false)
+	set_sound_enabled(true)
+	set_volume(50)
 
 
 # For clearing all streams and the database when needed
